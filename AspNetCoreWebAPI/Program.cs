@@ -6,19 +6,28 @@ namespace AspNetCoreWebAPI
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            ConfigureServices(builder.Services);
 
-            // Add services to the container.
+            var app = builder.Build();
+            ConfigureRequestPipeline(app);
 
-            builder.Services.AddControllers();
+            app.Run();
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            services.AddOpenApi();
 
             // Configure Swagger/OpenAPI
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(options =>
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
@@ -34,11 +43,11 @@ namespace AspNetCoreWebAPI
             });
 
             // Register repository (can be swapped with different implementations)
-            builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+            services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+        }
 
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
+        private static void ConfigureRequestPipeline(WebApplication app)
+        {
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
@@ -51,13 +60,8 @@ namespace AspNetCoreWebAPI
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
-
-            app.Run();
         }
     }
 }
