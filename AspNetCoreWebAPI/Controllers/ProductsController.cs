@@ -9,7 +9,7 @@ namespace AspNetCoreWebAPI.Controllers
     /// Manages product operations including filtering and updates
     /// </summary>
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/products")]
     [Produces("application/json")]
     public class ProductsController : ControllerBase
     {
