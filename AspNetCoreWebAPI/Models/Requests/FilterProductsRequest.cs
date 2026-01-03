@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreWebAPI.Models.Requests
 {
@@ -11,12 +12,14 @@ namespace AspNetCoreWebAPI.Models.Requests
         /// Filter products by name (partial match, case-insensitive)
         /// </summary>
         /// <example>Laptop</example>
+        [FromQuery(Name = "name")]
         public string? Name { get; set; }
 
         /// <summary>
         /// Filter products by category ID
         /// </summary>
         /// <example>1</example>
+        [FromQuery(Name = "categoryId")]
         [Range(1, int.MaxValue, ErrorMessage = "Category ID must be a positive number")]
         public int? CategoryId { get; set; }
 
@@ -24,6 +27,7 @@ namespace AspNetCoreWebAPI.Models.Requests
         /// Filter products with price greater than or equal to this value
         /// </summary>
         /// <example>50.00</example>
+        [FromQuery(Name = "minPrice")]
         [Range(0, double.MaxValue, ErrorMessage = "Minimum price must be non-negative")]
         public decimal? MinPrice { get; set; }
 
@@ -31,6 +35,7 @@ namespace AspNetCoreWebAPI.Models.Requests
         /// Filter products with price less than or equal to this value
         /// </summary>
         /// <example>500.00</example>
+        [FromQuery(Name = "maxPrice")]
         [Range(0, double.MaxValue, ErrorMessage = "Maximum price must be non-negative")]
         public decimal? MaxPrice { get; set; }
     }

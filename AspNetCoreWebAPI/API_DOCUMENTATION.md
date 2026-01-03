@@ -10,16 +10,16 @@ Returns a filtered list of products based on optional criteria.
 
 **Query Parameters:**
 - `name` (string, optional): Filter by product name (partial match, case-insensitive)
-- `categoryId` (integer, optional): Filter by category ID (must be positive)
-- `minPrice` (decimal, optional): Minimum price filter (must be non-negative)
-- `maxPrice` (decimal, optional): Maximum price filter (must be non-negative)
+- `categoryid` (integer, optional): Filter by category ID (must be positive)
+- `minprice` (decimal, optional): Minimum price filter (must be non-negative)
+- `maxprice` (decimal, optional): Maximum price filter (must be non-negative)
 
 **Example Requests:**
 ```
 GET /api/products
 GET /api/products?name=laptop
-GET /api/products?categoryId=1&minPrice=50&maxPrice=500
-GET /api/products?name=desk&minPrice=100
+GET /api/products?categoryid=1&minprice=50&maxprice=500
+GET /api/products?name=desk&minprice=100
 ```
 
 **Response (200 OK):**
