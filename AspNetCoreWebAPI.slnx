@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="AspNetCoreWebAPI.Tests/AspNetCoreWebAPI.Tests.csproj" />
   <Project Path="AspNetCoreWebAPI/AspNetCoreWebAPI.csproj" />
 </Solution>
