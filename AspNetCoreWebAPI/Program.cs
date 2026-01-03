@@ -1,4 +1,6 @@
 using System.Reflection;
+using AspNetCoreWebAPI.Interfaces;
+using AspNetCoreWebAPI.Repositories;
 
 namespace AspNetCoreWebAPI
 {
@@ -30,6 +32,9 @@ namespace AspNetCoreWebAPI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
                 options.IncludeXmlComments(xmlPath);
             });
+
+            // Register repository (can be swapped with different implementations)
+            builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
 
             var app = builder.Build();
 
