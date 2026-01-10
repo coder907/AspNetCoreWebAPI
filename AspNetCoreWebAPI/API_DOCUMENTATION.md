@@ -205,6 +205,13 @@ private static IProductRepository CreateProductRepository(
 
 ---
 
+### Validation
+Input validation using Data Annotations and custom validation logic:
+- Required fields
+- Range validation
+- String length limits
+- Business rule validation
+
 ## Error Handling
 
 All endpoints handle errors gracefully:

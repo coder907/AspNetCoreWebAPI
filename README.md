@@ -109,27 +109,6 @@ AspNetCoreWebAPI/
     └── Repositories/                           # Repository unit tests
 ```
 
-## Architecture
-
-### Dependency Injection
-The API uses dependency injection for loose coupling:
-
-```csharp
-builder.Services.AddScoped<IProductRepository, InMemoryProductRepository>();
-```
-
-### Repository Pattern
-Controllers depend on `IProductRepository` interface, allowing easy swapping of implementations:
-- Current: `InMemoryProductRepository` (for demonstration)
-- Future: Database-backed repository, external API, etc.
-
-### Validation
-Input validation using Data Annotations and custom validation logic:
-- Required fields
-- Range validation
-- String length limits
-- Business rule validation
-
 ## Development
 
 ### Using Visual Studio
