@@ -125,6 +125,31 @@ dotnet test --filter "FullyQualifiedName~GetFilteredProducts_WithNoFilters_Retur
 dotnet test --collect:"XPlat Code Coverage"
 ```
 
+## Test Coverage
+
+The test suite provides comprehensive coverage of:
+
+**Repository Layer**
+- All filtering combinations
+- CRUD operations
+- Edge cases and error conditions
+
+**Controller Layer**
+- Request validation
+- Response formatting
+- Error handling
+- Dependency injection
+
+**Integration**
+- End-to-end workflows
+- Data persistence
+- Real-world scenarios
+
+**Validation**
+- Input validation
+- Business rule enforcement
+- Error messages
+
 ## Test Summary
 
 | Test Suite | Tests | Focus Area |
@@ -133,31 +158,6 @@ dotnet test --collect:"XPlat Code Coverage"
 | ProductsControllerTests | 27 | Controller behavior with mocked dependencies |
 | ProductsControllerIntegrationTests | 30 | End-to-end scenarios with real repository |
 | **Total** | **94** | **Complete coverage of API functionality** |
-
-## Test Coverage
-
-The test suite provides comprehensive coverage of:
-
-? **Repository Layer**
-- All filtering combinations
-- CRUD operations
-- Edge cases and error conditions
-
-? **Controller Layer**
-- Request validation
-- Response formatting
-- Error handling
-- Dependency injection
-
-? **Integration**
-- End-to-end workflows
-- Data persistence
-- Real-world scenarios
-
-? **Validation**
-- Input validation
-- Business rule enforcement
-- Error messages
 
 ## Key Testing Patterns
 
