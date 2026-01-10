@@ -85,6 +85,17 @@ The Swagger UI provides:
 - Model schemas with validation rules
 - The API includes sample data for testing
 
+### Quick Start Checklist
+
+- [ ] Clone the repository
+- [ ] Install .NET 10 SDK
+- [ ] Run `dotnet restore`
+- [ ] Run `dotnet build`
+- [ ] Run `dotnet run --project AspNetCoreWebAPI`
+- [ ] Open `https://localhost:7053` in browser
+- [ ] Explore the API using Swagger UI
+- [ ] Run tests with `dotnet test` or Visual Studio Test Explorer
+
 ## Project Structure
 
 ```
@@ -144,7 +155,7 @@ The project includes comprehensive tests covering unit and integration scenarios
 | Controller Unit Tests | Tests with mocked dependencies |
 | Integration Tests | End-to-end scenarios with real repository |
 
-See [AspNetCoreWebAPI.Tests/README.md](AspNetCoreWebAPI.Tests/README.md) for detailed test documentation.
+See [Test Documentation](AspNetCoreWebAPI.Tests/README.md) for detailed test documentation.
 
 ### Run All Tests
 
@@ -171,6 +182,12 @@ dotnet test --filter "FullyQualifiedName~ProductsControllerTests"
 dotnet test --filter "FullyQualifiedName~ProductsControllerIntegrationTests"
 ```
 
+## Additional Documentation
+
+- [API Documentation](AspNetCoreWebAPI/API_DOCUMENTATION.md) - Detailed endpoint documentation
+- [Test Documentation](AspNetCoreWebAPI.Tests/README.md) - Test suite overview
+- [Test Summary](AspNetCoreWebAPI.Tests/DETAILS.md) - Test suite details
+
 ## Contributing
 
 1. Fork the repository
@@ -182,20 +199,3 @@ dotnet test --filter "FullyQualifiedName~ProductsControllerIntegrationTests"
 ## License
 
 This project is licensed under the MIT License.
-
-## Documentation
-
-- [API Documentation](AspNetCoreWebAPI/API_DOCUMENTATION.md) - Detailed endpoint documentation
-- [Test Documentation](AspNetCoreWebAPI.Tests/README.md) - Test suite overview
-- [Test Summary](AspNetCoreWebAPI.Tests/DETAILS.md) - Test suite details
-
-## Quick Start Checklist
-
-- [ ] Clone the repository
-- [ ] Install .NET 10 SDK
-- [ ] Run `dotnet restore`
-- [ ] Run `dotnet build`
-- [ ] Run `dotnet run --project AspNetCoreWebAPI`
-- [ ] Open `https://localhost:7053` in browser
-- [ ] Explore the API using Swagger UI
-- [ ] Run tests with `dotnet test` or Visual Studio Test Explorer
