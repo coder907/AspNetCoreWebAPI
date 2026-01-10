@@ -13,7 +13,7 @@ A sample ASP.NET Core Web API project demonstrating RESTful API design with Open
 
 ## Tech Stack
 
-- **.NET 9** - Web API framework
+- **.NET 10** - Web API framework
 - **Swashbuckle.AspNetCore** - OpenAPI/Swagger implementation
 - **xUnit** - Testing framework
 - **Moq** - Mocking library for unit tests
@@ -44,7 +44,7 @@ Update a product's name and/or price.
 
 ### Prerequisites
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later
 
 ### Clone the Repository
 
@@ -213,7 +213,7 @@ This project is licensed under the MIT License.
 ## Quick Start Checklist
 
 - [ ] Clone the repository
-- [ ] Install .NET 9 SDK
+- [ ] Install .NET 10 SDK
 - [ ] Run `dotnet restore`
 - [ ] Run `dotnet build`
 - [ ] Run `dotnet run --project AspNetCoreWebAPI`
