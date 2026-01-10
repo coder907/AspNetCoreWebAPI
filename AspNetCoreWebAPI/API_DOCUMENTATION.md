@@ -185,6 +185,26 @@ private static IProductRepository CreateProductRepository(
 
 ---
 
+### PUT vs. PATCH: Design Decision
+
+**PUT (Complete Replacement)** replaces the entire resource. It requires all fields to be sent, making it idempotent and predictable but verbose. If you omit a field, it gets cleared. Example: `PUT /api/products/1` requires `{ "id": 1, "name": "...", "price": ..., "categoryId": 1 }`.
+
+**PATCH (Partial Update)** modifies only specified fields. It's more flexible and bandwidth-efficient, but requires careful handling of null values and partial validation. Example: `PATCH /api/products/1` with `{ "price": 1299.99 }` updates only the price.
+
+**Why PATCH was chosen:**
+1. **Semantic Accuracy** - Our use case is partial updates (name and/or price only), not full replacement
+2. **Immutable Fields** - `id` and `categoryId` cannot be changed, making PUT somewhat verbose (sending fields you can't update)
+3. **Flexibility** - Update one field (`{ "name": "..." }`) or both (`{ "name": "...", "price": ... }`) without sending readonly fields
+4. **Better UX** - Simpler for clients; only send what needs to change
+5. **Network Efficiency** - Smaller payloads, especially important for mobile apps
+6. **Future-Proof** - Easy to add new updatable fields without breaking existing clients
+
+**Trade-off:** PATCH requires more complex server-side validation (checking which fields are present, handling partial data) compared to PUT's all-or-nothing approach. However, the improved flexibility and alignment with business rules (only name/price are updatable) makes PATCH the better choice for this API.
+
+**Implementation Note:** This API uses JSON Merge Patch (simple key-value updates). For complex scenarios involving nested objects or arrays, consider JSON Patch (RFC 6902) with explicit operations: `[{ "op": "replace", "path": "/price", "value": 1299.99 }]`.
+
+---
+
 ## Error Handling
 
 All endpoints handle errors gracefully:
