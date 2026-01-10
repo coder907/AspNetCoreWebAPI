@@ -69,7 +69,7 @@ dotnet build
 
 ```bash
 cd AspNetCoreWebAPI
-dotnet run
+dotnet run --launch-profile "AspNetCoreWebAPI (https)"
 ```
 
 The API will start and be available, depending on the selected launch profile, at:
@@ -128,22 +128,6 @@ AspNetCoreWebAPI/
 2. Select launch profile: **AspNetCoreWebAPI (https)** or **AspNetCoreWebAPI (http)**
 3. Press **F5** to run with debugging
 4. Browser will automatically open to Swagger UI
-
-### Using VS Code
-
-1. Open the project folder
-2. Press **F5** to run
-3. Navigate to `https://localhost:7053` in your browser
-
-### Using Command Line
-
-```bash
-# Development mode
-dotnet run --project AspNetCoreWebAPI
-
-# Watch mode (auto-reload on changes)
-dotnet watch run --project AspNetCoreWebAPI
-```
 
 ## Testing
 
