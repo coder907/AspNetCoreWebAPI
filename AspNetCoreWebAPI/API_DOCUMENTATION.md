@@ -126,18 +126,62 @@ The controller depends on the `IProductRepository` interface, allowing different
 
 **Current Implementation:** `InMemoryProductRepository` (in-memory storage with sample data)
 
-**To swap implementations:**
-1. Create a new class implementing `IProductRepository`
-2. Update the registration in `Program.cs`:
+**Factory Method Pattern:**
+
+The application uses a factory method to create and register repository instances, providing flexibility to switch implementations:
+
 ```csharp
-builder.Services.AddSingleton<IProductRepository, YourNewImplementation>();
+// In Program.cs
+services.AddScoped<IProductRepository>(serviceProvider => 
+    CreateProductRepository(serviceProvider, configuration));
+
+private static IProductRepository CreateProductRepository(
+    IServiceProvider serviceProvider, 
+    IConfiguration configuration)
+{
+    // Factory method - can select implementation based on configuration
+    return new InMemoryProductRepository();
+}
 ```
 
-Example implementations could include:
-- Database-backed repository (Entity Framework)
-- External API repository
-- Cached repository
-- Mock repository for testing
+**To swap implementations:**
+1. Create a new class implementing `IProductRepository`
+2. Update the factory method in `Program.cs`:
+```csharp
+private static IProductRepository CreateProductRepository(
+    IServiceProvider serviceProvider, 
+    IConfiguration configuration)
+{
+    var repositoryType = configuration["RepositoryType"];
+    return repositoryType switch
+    {
+        "Database" => new DatabaseProductRepository(
+            serviceProvider.GetRequiredService<DbContext>()),
+        "Cache" => new CachedProductRepository(
+            serviceProvider.GetRequiredService<IMemoryCache>()),
+        "InMemory" => new InMemoryProductRepository(),
+        _ => new InMemoryProductRepository()
+    };
+}
+```
+3. Add configuration to `appsettings.json`:
+```json
+{
+  "RepositoryType": "InMemory"
+}
+```
+
+**Example implementations:**
+- **Database-backed repository** - Persistent storage using Entity Framework
+- **Cached repository** - Combines database with in-memory caching for performance
+- **External API repository** - Integrates with external product services
+- **Mock repository** - For testing purposes
+
+**Benefits of Factory Method:**
+- Switch implementations without modifying controller code
+- Configuration-based selection (no code changes needed)
+- Access to dependency injection container for complex dependencies
+- Environment-specific implementations (development vs. production)
 
 ---
 
@@ -155,7 +199,7 @@ All errors return descriptive messages to help identify the issue.
 ## Testing with Swagger
 
 When running the application:
-1. Navigate to the root URL (e.g., `https://localhost:5001/`)
+1. Navigate to the root URL (e.g., `https://localhost:7053`)
 2. Swagger UI will display both endpoints with full documentation
 3. Use the "Try it out" button to test each endpoint interactively
 4. All XML documentation comments are visible in the Swagger UI

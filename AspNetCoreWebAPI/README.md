@@ -72,9 +72,9 @@ cd AspNetCoreWebAPI
 dotnet run
 ```
 
-The API will start and be available at:
-- **HTTP**: `http://localhost:5183`
-- **HTTPS**: `https://localhost:7053`
+The API will start and be available, depending on the selected launch profile, at:
+- **AspNetCoreWebAPI (http)**: `http://localhost:5183`
+- **AspNetCoreWebAPI (https)**: `https://localhost:7053`
 
 ### Access Swagger UI
 

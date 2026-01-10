@@ -10,7 +10,7 @@ namespace AspNetCoreWebAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            ConfigureServices(builder.Services);
+            ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
             ConfigureRequestPipeline(app);
@@ -18,7 +18,7 @@ namespace AspNetCoreWebAPI
             app.Run();
         }
 
-        private static void ConfigureServices(IServiceCollection services)
+        private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers();
 
@@ -42,8 +42,27 @@ namespace AspNetCoreWebAPI
                 options.IncludeXmlComments(xmlPath);
             });
 
-            // Register repository (can be swapped with different implementations)
-            services.AddScoped<IProductRepository, InMemoryProductRepository>();
+            // Register repository using factory method (can be swapped with different implementations)
+            services.AddScoped<IProductRepository>(serviceProvider => 
+                CreateProductRepository(serviceProvider, configuration));
+        }
+
+        private static IProductRepository CreateProductRepository(IServiceProvider serviceProvider, IConfiguration configuration)
+        {
+            // Factory method to create repository instance
+            // Can add logic here to select different implementations based on configuration
+            
+            // Example: You could switch implementations based on configuration:
+            // var repositoryType = configuration["RepositoryType"];
+            // return repositoryType switch
+            // {
+            //     "Database" => new DatabaseProductRepository(serviceProvider.GetRequiredService<DbContext>()),
+            //     "Cache" => new CachedProductRepository(serviceProvider.GetRequiredService<IMemoryCache>()),
+            //     "InMemory" => new InMemoryProductRepository(),
+            //     _ => new InMemoryProductRepository()
+            // };
+            
+            return new InMemoryProductRepository();
         }
 
         private static void ConfigureRequestPipeline(WebApplication app)
