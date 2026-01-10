@@ -43,7 +43,7 @@ namespace AspNetCoreWebAPI
             });
 
             // Register repository (can be swapped with different implementations)
-            services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+            services.AddScoped<IProductRepository, InMemoryProductRepository>();
         }
 
         private static void ConfigureRequestPipeline(WebApplication app)
