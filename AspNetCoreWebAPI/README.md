@@ -134,7 +134,7 @@ Input validation using Data Annotations and custom validation logic:
 
 ### Using Visual Studio
 
-1. Open `AspNetCoreWebAPI.sln`
+1. Open `AspNetCoreWebAPI.slnx`
 2. Select launch profile: **AspNetCoreWebAPI (https)** or **AspNetCoreWebAPI (http)**
 3. Press **F5** to run with debugging
 4. Browser will automatically open to Swagger UI
