@@ -78,46 +78,12 @@ The API will start and be available at:
 
 ### Access Swagger UI
 
-Once the API is running, open your browser and navigate to:
-
-```
-https://localhost:7053
-```
-
 The Swagger UI provides:
 - Complete API documentation
 - Interactive testing interface
 - Request/response examples
 - Model schemas with validation rules
-
-## Running Tests
-
-The project includes comprehensive tests covering unit and integration scenarios.
-
-### Run All Tests
-
-```bash
-dotnet test
-```
-
-### Run with Detailed Output
-
-```bash
-dotnet test --verbosity normal
-```
-
-### Run Specific Test Class
-
-```bash
-# Repository tests
-dotnet test --filter "FullyQualifiedName~InMemoryProductRepositoryTests"
-
-# Controller tests
-dotnet test --filter "FullyQualifiedName~ProductsControllerTests"
-
-# Integration tests
-dotnet test --filter "FullyQualifiedName~ProductsControllerIntegrationTests"
-```
+- The API includes sample data for testing
 
 ## Project Structure
 
@@ -143,47 +109,26 @@ AspNetCoreWebAPI/
     └── Repositories/                           # Repository unit tests
 ```
 
-## Sample Data
+## Architecture
 
-The API includes sample data for testing:
+### Dependency Injection
+The API uses dependency injection for loose coupling:
 
-| Product | Price | Category |
-|---------|-------|----------|
-| Laptop | $999.99 | Electronics |
-| Mouse | $29.99 | Electronics |
-| Keyboard | $79.99 | Electronics |
-| Monitor | $299.99 | Electronics |
-| Desk Chair | $199.99 | Furniture |
-| Desk Lamp | $49.99 | Furniture |
-
-## API Usage Examples
-
-### Filter All Products
-```bash
-curl https://localhost:7053/api/products
+```csharp
+builder.Services.AddScoped<IProductRepository, InMemoryProductRepository>();
 ```
 
-### Filter by Category
-```bash
-curl https://localhost:7053/api/products?categoryId=1
-```
+### Repository Pattern
+Controllers depend on `IProductRepository` interface, allowing easy swapping of implementations:
+- Current: `InMemoryProductRepository` (for demonstration)
+- Future: Database-backed repository, external API, etc.
 
-### Filter by Price Range
-```bash
-curl https://localhost:7053/api/products?minPrice=50&maxPrice=300
-```
-
-### Filter with Multiple Criteria
-```bash
-curl https://localhost:7053/api/products?name=desk&categoryId=2&minPrice=100
-```
-
-### Update Product
-```bash
-curl -X PATCH https://localhost:7053/api/products/1 \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Gaming Laptop","price":1299.99}'
-```
+### Validation
+Input validation using Data Annotations and custom validation logic:
+- Required fields
+- Range validation
+- String length limits
+- Business rule validation
 
 ## Development
 
@@ -210,30 +155,9 @@ dotnet run --project AspNetCoreWebAPI
 dotnet watch run --project AspNetCoreWebAPI
 ```
 
-## Architecture
-
-### Dependency Injection
-The API uses dependency injection for loose coupling:
-
-```csharp
-builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
-```
-
-### Repository Pattern
-Controllers depend on `IProductRepository` interface, allowing easy swapping of implementations:
-- Current: `InMemoryProductRepository` (for demonstration)
-- Future: Database-backed repository, external API, etc.
-
-### Validation
-Input validation using Data Annotations and custom validation logic:
-- Required fields
-- Range validation
-- String length limits
-- Business rule validation
-
 ## Testing
 
-The project includes comprehensive test coverage:
+The project includes comprehensive tests covering unit and integration scenarios.
 
 | Test Suite | Description |
 |------------|-------------|
@@ -243,24 +167,30 @@ The project includes comprehensive test coverage:
 
 See [AspNetCoreWebAPI.Tests/README.md](AspNetCoreWebAPI.Tests/README.md) for detailed test documentation.
 
-## Configuration
+### Run All Tests
 
-### Launch Profiles
+```bash
+dotnet test
+```
 
-Two launch profiles are available in `Properties/launchSettings.json`:
+### Run with Detailed Output
 
-- **AspNetCoreWebAPI (http)** - HTTP on port 5183
-- **AspNetCoreWebAPI (https)** - HTTPS on port 7053
+```bash
+dotnet test --verbosity normal
+```
 
-Both profiles automatically open Swagger UI on launch.
+### Run Specific Test Class
 
-### Swagger Configuration
+```bash
+# Repository tests
+dotnet test --filter "FullyQualifiedName~InMemoryProductRepositoryTests"
 
-Swagger UI is configured to:
-- Display at the root URL (`/`)
-- Include XML documentation comments
-- Show example values
-- Provide interactive testing
+# Controller tests
+dotnet test --filter "FullyQualifiedName~ProductsControllerTests"
+
+# Integration tests
+dotnet test --filter "FullyQualifiedName~ProductsControllerIntegrationTests"
+```
 
 ## Contributing
 
@@ -290,4 +220,3 @@ This project is licensed under the MIT License.
 - [ ] Open `https://localhost:7053` in browser
 - [ ] Explore the API using Swagger UI
 - [ ] Run tests with `dotnet test` or Visual Studio Test Explorer
-
