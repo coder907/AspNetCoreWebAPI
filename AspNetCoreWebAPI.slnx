@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Files/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="AspNetCoreWebAPI.Tests/AspNetCoreWebAPI.Tests.csproj" />
   <Project Path="AspNetCoreWebAPI/AspNetCoreWebAPI.csproj" />
 </Solution>

@@ -13,7 +13,7 @@ A sample ASP.NET Core Web API project demonstrating RESTful API design with Open
 
 ## Tech Stack
 
-- **.NET 9** - Web API framework
+- **.NET 10** - Web API framework
 - **Swashbuckle.AspNetCore** - OpenAPI/Swagger implementation
 - **xUnit** - Testing framework
 - **Moq** - Mocking library for unit tests
@@ -44,7 +44,7 @@ Update a product's name and/or price.
 
 ### Prerequisites
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later
 
 ### Clone the Repository
 
@@ -72,27 +72,100 @@ cd AspNetCoreWebAPI
 dotnet run
 ```
 
-The API will start and be available at:
-- **HTTP**: `http://localhost:5183`
-- **HTTPS**: `https://localhost:7053`
+The API will start and be available, depending on the selected launch profile, at:
+- **AspNetCoreWebAPI (http)**: `http://localhost:5183`
+- **AspNetCoreWebAPI (https)**: `https://localhost:7053`
 
 ### Access Swagger UI
-
-Once the API is running, open your browser and navigate to:
-
-```
-https://localhost:7053
-```
 
 The Swagger UI provides:
 - Complete API documentation
 - Interactive testing interface
 - Request/response examples
 - Model schemas with validation rules
+- The API includes sample data for testing
 
-## Running Tests
+## Project Structure
+
+```
+AspNetCoreWebAPI/
+├── AspNetCoreWebAPI/                           # Main API project
+│   ├── Controllers/                            # API controllers
+│   │   └── ProductsController.cs
+│   ├── Interfaces/                             # Repository interfaces
+│   │   └── IProductRepository.cs
+│   ├── Models/                                 # Data models and DTOs
+│   │   ├── Category.cs
+│   │   ├── Product.cs
+│   │   ├── Requests/                           # Request DTOs
+│   │   └── Responses/                          # Response DTOs
+│   ├── Repositories/                           # Data access implementations
+│   │   └── InMemoryProductRepository.cs
+│   └── Program.cs                              # Application entry point
+│
+└── AspNetCoreWebAPI.Tests/                     # Test project
+    ├── Controllers/                            # Controller unit tests
+    ├── Integration/                            # Integration tests
+    └── Repositories/                           # Repository unit tests
+```
+
+## Architecture
+
+### Dependency Injection
+The API uses dependency injection for loose coupling:
+
+```csharp
+builder.Services.AddScoped<IProductRepository, InMemoryProductRepository>();
+```
+
+### Repository Pattern
+Controllers depend on `IProductRepository` interface, allowing easy swapping of implementations:
+- Current: `InMemoryProductRepository` (for demonstration)
+- Future: Database-backed repository, external API, etc.
+
+### Validation
+Input validation using Data Annotations and custom validation logic:
+- Required fields
+- Range validation
+- String length limits
+- Business rule validation
+
+## Development
+
+### Using Visual Studio
+
+1. Open `AspNetCoreWebAPI.slnx`
+2. Select launch profile: **AspNetCoreWebAPI (https)** or **AspNetCoreWebAPI (http)**
+3. Press **F5** to run with debugging
+4. Browser will automatically open to Swagger UI
+
+### Using VS Code
+
+1. Open the project folder
+2. Press **F5** to run
+3. Navigate to `https://localhost:7053` in your browser
+
+### Using Command Line
+
+```bash
+# Development mode
+dotnet run --project AspNetCoreWebAPI
+
+# Watch mode (auto-reload on changes)
+dotnet watch run --project AspNetCoreWebAPI
+```
+
+## Testing
 
 The project includes comprehensive tests covering unit and integration scenarios.
+
+| Test Suite | Description |
+|------------|-------------|
+| Repository Unit Tests | Tests filtering, CRUD operations, edge cases |
+| Controller Unit Tests | Tests with mocked dependencies |
+| Integration Tests | End-to-end scenarios with real repository |
+
+See [AspNetCoreWebAPI.Tests/README.md](AspNetCoreWebAPI.Tests/README.md) for detailed test documentation.
 
 ### Run All Tests
 
@@ -119,149 +192,6 @@ dotnet test --filter "FullyQualifiedName~ProductsControllerTests"
 dotnet test --filter "FullyQualifiedName~ProductsControllerIntegrationTests"
 ```
 
-## Project Structure
-
-```
-AspNetCoreWebAPI/
-├── AspNetCoreWebAPI/                           # Main API project
-│   ├── Controllers/                            # API controllers
-│   │   └── ProductsController.cs
-│   ├── Interfaces/                             # Repository interfaces
-│   │   └── IProductRepository.cs
-│   ├── Models/                                 # Data models and DTOs
-│   │   ├── Category.cs
-│   │   ├── Product.cs
-│   │   ├── Requests/                           # Request DTOs
-│   │   └── Responses/                          # Response DTOs
-│   ├── Repositories/                           # Data access implementations
-│   │   └── InMemoryProductRepository.cs
-│   └── Program.cs                              # Application entry point
-│
-└── AspNetCoreWebAPI.Tests/                     # Test project
-    ├── Controllers/                            # Controller unit tests
-    ├── Integration/                            # Integration tests
-    └── Repositories/                           # Repository unit tests
-```
-
-## Sample Data
-
-The API includes sample data for testing:
-
-| Product | Price | Category |
-|---------|-------|----------|
-| Laptop | $999.99 | Electronics |
-| Mouse | $29.99 | Electronics |
-| Keyboard | $79.99 | Electronics |
-| Monitor | $299.99 | Electronics |
-| Desk Chair | $199.99 | Furniture |
-| Desk Lamp | $49.99 | Furniture |
-
-## API Usage Examples
-
-### Filter All Products
-```bash
-curl https://localhost:7053/api/products
-```
-
-### Filter by Category
-```bash
-curl https://localhost:7053/api/products?categoryId=1
-```
-
-### Filter by Price Range
-```bash
-curl https://localhost:7053/api/products?minPrice=50&maxPrice=300
-```
-
-### Filter with Multiple Criteria
-```bash
-curl https://localhost:7053/api/products?name=desk&categoryId=2&minPrice=100
-```
-
-### Update Product
-```bash
-curl -X PATCH https://localhost:7053/api/products/1 \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Gaming Laptop","price":1299.99}'
-```
-
-## Development
-
-### Using Visual Studio
-
-1. Open `AspNetCoreWebAPI.sln`
-2. Select launch profile: **AspNetCoreWebAPI (https)** or **AspNetCoreWebAPI (http)**
-3. Press **F5** to run with debugging
-4. Browser will automatically open to Swagger UI
-
-### Using VS Code
-
-1. Open the project folder
-2. Press **F5** to run
-3. Navigate to `https://localhost:7053` in your browser
-
-### Using Command Line
-
-```bash
-# Development mode
-dotnet run --project AspNetCoreWebAPI
-
-# Watch mode (auto-reload on changes)
-dotnet watch run --project AspNetCoreWebAPI
-```
-
-## Architecture
-
-### Dependency Injection
-The API uses dependency injection for loose coupling:
-
-```csharp
-builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
-```
-
-### Repository Pattern
-Controllers depend on `IProductRepository` interface, allowing easy swapping of implementations:
-- Current: `InMemoryProductRepository` (for demonstration)
-- Future: Database-backed repository, external API, etc.
-
-### Validation
-Input validation using Data Annotations and custom validation logic:
-- Required fields
-- Range validation
-- String length limits
-- Business rule validation
-
-## Testing
-
-The project includes comprehensive test coverage:
-
-| Test Suite | Description |
-|------------|-------------|
-| Repository Unit Tests | Tests filtering, CRUD operations, edge cases |
-| Controller Unit Tests | Tests with mocked dependencies |
-| Integration Tests | End-to-end scenarios with real repository |
-
-See [AspNetCoreWebAPI.Tests/README.md](AspNetCoreWebAPI.Tests/README.md) for detailed test documentation.
-
-## Configuration
-
-### Launch Profiles
-
-Two launch profiles are available in `Properties/launchSettings.json`:
-
-- **AspNetCoreWebAPI (http)** - HTTP on port 5183
-- **AspNetCoreWebAPI (https)** - HTTPS on port 7053
-
-Both profiles automatically open Swagger UI on launch.
-
-### Swagger Configuration
-
-Swagger UI is configured to:
-- Display at the root URL (`/`)
-- Include XML documentation comments
-- Show example values
-- Provide interactive testing
-
 ## Contributing
 
 1. Fork the repository
@@ -283,11 +213,10 @@ This project is licensed under the MIT License.
 ## Quick Start Checklist
 
 - [ ] Clone the repository
-- [ ] Install .NET 9 SDK
+- [ ] Install .NET 10 SDK
 - [ ] Run `dotnet restore`
 - [ ] Run `dotnet build`
 - [ ] Run `dotnet run --project AspNetCoreWebAPI`
 - [ ] Open `https://localhost:7053` in browser
 - [ ] Explore the API using Swagger UI
 - [ ] Run tests with `dotnet test` or Visual Studio Test Explorer
-
